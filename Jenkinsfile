@@ -4,28 +4,22 @@ pipeline {
     agent any
     
     stages {
-        stage('Build') {
+        stage('Checkout_teste_multiplo_projeto_1') {
 	        steps {
-	            sh 'python3 -m py_compile sources/teste_jenkin.py'
-		        stash(name: 'compiled-results', includes: 'sources/*.py*')
+	            sh 'mkdir -p projeto1'
+		        dir("projeto1")
+                git branch: "main"
+                url: 'https://github.com/weversonmachado/teste_multiplo_projeto_1.git'
 	        }
 	    }
 
-        stage('Test') {
-            steps {
-                echo 'Teste echo'
-            }
-        }
-        
-        stage('Deliver'){
-            steps {
-		sh 'pyinstaller --onefile sources/teste_jenkin.py'
-            }
-            post {
-                success{
-                    archiveArtifacts 'dist/teste_jenkin'
-               }
-            }
-        }
+        stage('Checkout_teste_multiplo_projeto_2') {
+	        steps {
+	            sh 'mkdir -p projeto2'
+		        dir("projeto2")
+                git branch: "main"
+                url: 'https://github.com/weversonmachado/teste_multiplo_projeto_2.git'
+	        }
+	    }
     }
 }
